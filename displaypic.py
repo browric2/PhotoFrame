@@ -4,7 +4,7 @@ import Settings
 import Display_Playlist
 
 
-playlist = 'data/playlists/best2_rscale/'
+playlist = 'data/playlists/brum_rscale/'
 home_colour = (10,10,10)
 player = Display_Playlist.Player(playlist, home_colour)
 
@@ -31,7 +31,7 @@ explorer_group = but.buttongroup(edgeratio,heightratio,gapratio,widthratio,butco
 
 heightratio_m = 0.1
 gapratio_m = heightratio/2
-widthratio_m = 0.15
+widthratio_m = 0.2
 edgeratio_m = ((1-widthratio)/2,0.3)
 butcol_m = (50,50,50)
 text_col_m = (255,255,255)
@@ -62,21 +62,27 @@ class Home_but(but.button):
         effect.play()
         player.done = True
 
-class func1_but(but.button):
+class Settings_but(but.button):
     def __init__(self):
-        but.button.__init__(self, caption = "func1", parentgroup = menu_group)
+        but.button.__init__(self, caption = "Settings", parentgroup = menu_group)
 
     def function(self):
         effect.play()
-        print('func1')
+        print('Settings')
 
-class func2_but(but.button):
+class Pause_but(but.button):
     def __init__(self):
-        but.button.__init__(self, caption = "func2", parentgroup = menu_group)
+        but.button.__init__(self, caption = "Pause", parentgroup = menu_group)
 
     def function(self):
         effect.play()
-        print('func2')
+        if player.pause_state:
+            player.pause_state = False
+            self.caption = 'Pause'
+        else:
+            player.pause_state = True
+            self.caption = 'Unpause'
+        print('Pause')
 
 class func3_but(but.button):
     def __init__(self):
@@ -89,8 +95,8 @@ class func3_but(but.button):
 
 quitbut = Quit_but()
 homebut = Home_but()
-func1but = func1_but()
-func2but = func2_but()
+settingsbut = Settings_but()
+pausebut = Pause_but()
 func3but = func3_but()
 
 
@@ -109,8 +115,6 @@ def display_pic():
 
             elif event.type == pygame.MOUSEBUTTONUP:
 
-                print('!!!!!!!!!!!!!!!!!!')
-
                 if event.button == 1:
                     pos = pygame.mouse.get_pos()
 
@@ -121,10 +125,10 @@ def display_pic():
                         homebut.function()
 
                     elif menu_toggle:
-                        if func1but.rect().collidepoint(pos):
-                            func1but.function()
-                        elif func2but.rect().collidepoint(pos):
-                            func2but.function()
+                        if settingsbut.rect().collidepoint(pos):
+                            settingsbut.function()
+                        elif pausebut.rect().collidepoint(pos):
+                            pausebut.function()
                         elif func3but.rect().collidepoint(pos):
                             func3but.function()
                         else:
@@ -134,9 +138,12 @@ def display_pic():
                         menu_toggle = not menu_toggle
 
 
-        if not player.done:
+        if not (player.done):
 
-            if player.mode == 'first':
+            if player.pause_state:
+                player.Pause_Mode()
+
+            elif player.mode == 'first':
                 player.First_Mode()
 
             elif player.mode == 'start':
@@ -155,16 +162,16 @@ def display_pic():
                 raise AssertionError('Invalid Player Mode Selected')
 
 
-            for exp_but in explorer_group.button_list:
-                pygame.draw.rect(screen, BLACK, exp_but.shadow(0.15))
-                pygame.draw.rect(screen, exp_but.colour,exp_but.rect())
-                exp_but.caption_print(screen)
+        for exp_but in explorer_group.button_list:
+            pygame.draw.rect(screen, BLACK, exp_but.shadow(0.15))
+            pygame.draw.rect(screen, exp_but.colour,exp_but.rect())
+            exp_but.caption_print(screen)
 
-            if menu_toggle:
-                for men_but in menu_group.button_list:
-                    pygame.draw.rect(screen, BLACK, men_but.shadow(0.15))
-                    pygame.draw.rect(screen, men_but.colour, men_but.rect())
-                    men_but.caption_print(screen)
+        if menu_toggle:
+            for men_but in menu_group.button_list:
+                pygame.draw.rect(screen, BLACK, men_but.shadow(0.15))
+                pygame.draw.rect(screen, men_but.colour, men_but.rect())
+                men_but.caption_print(screen)
 
-            pygame.display.flip()
-            clock.tick(Settings.fps)
+        pygame.display.flip()
+        clock.tick(Settings.fps)

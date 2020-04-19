@@ -28,11 +28,12 @@ class Player():
 
         self.clock = pygame.time.Clock()
         self.done = False
+        self.pause_state = False
         self.mode = 'first'
         self.imshape = 'Error: Imshape undefined'
         self.imagelist = os.listdir(playlist)
         self.picfit = 'Error: picfit undefined'
-        self.picfit2 = 'Error: picfit2 undefined'
+        self.picfit2 = pygame.image.load(os.path.abspath(self.playlist+self.imagelist[0]))
         self.alph = 255
         self.startcount = 0
         self.endcount = 0
@@ -127,6 +128,12 @@ class Player():
             screen.fill(self.home_colour)
             screen.blit(self.picfit, self.where)
             self.mode = 'transition'
+
+    def Pause_Mode(self):
+        self.picfit.set_alpha(self.alph)
+        screen.fill(self.home_colour)
+        screen.blit(self.picfit2, (0, 0))
+        screen.blit(self.picfit, self.where)
 
     def Transition_Mode(self):
 
