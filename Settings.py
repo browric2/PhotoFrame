@@ -22,3 +22,4 @@ pansteps = 200
 startframes = 80
 endframes = 80
 tframes = 50
+fps = 40
