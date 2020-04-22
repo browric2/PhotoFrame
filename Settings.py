@@ -18,8 +18,8 @@ pygame.display.set_caption("Ricky's Photo Viewer")
 
 currentgroup = 0
 
-pansteps = 200
-startframes = 80
-endframes = 80
-tframes = 50
-fps = 40
+pansteps = 300
+startframes = 20
+endframes = 20
+tframes = 30
+fps = 37

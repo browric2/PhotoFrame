@@ -1,5 +1,6 @@
 from preprocessing import file_ends
 import random
+import numpy as np
 import pygame
 import Settings
 import Transitions
@@ -31,16 +32,15 @@ class Player():
         self.pause_state = False
         self.mode = 'first'
         self.imshape = 'Error: Imshape undefined'
-        self.imagelist = os.listdir(playlist)
+        self.imagelist = list(filter(lambda x: any(fend in x for fend in file_ends),os.listdir(playlist)))
         self.picfit = 'Error: picfit undefined'
         self.picfit2 = pygame.image.load(os.path.abspath(self.playlist+self.imagelist[0]))
+        self.nextpan_picfit = 0
         self.alph = 255
         self.startcount = 0
         self.endcount = 0
         self.shifted = 0
         self.where = [0,0]
-
-        pass
 
     def First_Mode(self):
         screen.fill(self.home_colour)
@@ -79,11 +79,27 @@ class Player():
             d = 1
         topan = self.picfit.get_size()[d] - (SWidth, SHeight)[d]
 
+        oneshift = topan / pansteps
+        lower = np.floor(oneshift)
+        upper = np.floor(oneshift)
+
         if self.shifted < topan:
-            oneshift = topan / pansteps
+
             self.where = [0, 0]
-            self.where[d] = round(self.where[d] - self.shifted)
-            screen.blit(self.picfit, self.where)
+            #current_where = self.where[d] - self.shifted
+
+            upper = [0, 0]
+            upper[d] = np.ceil(self.where[d] - self.shifted)
+            self.where = [0, 0]
+            self.where[d] = np.floor(self.where[d] - self.shifted)
+            next_alpha = (self.shifted % 1)*255
+
+
+            self.nextpan_picfit = self.picfit.copy()
+            self.nextpan_picfit.set_alpha(next_alpha)
+            print(next_alpha,self.where,upper)
+            screen.blits([(self.picfit, self.where),(self.nextpan_picfit, upper)])
+            #screen.blit(self.nextpan_picfit, upper)
             self.shifted += oneshift
 
         elif topan == 0:

@@ -37,10 +37,14 @@ def Panning_Mode(self):
         d = 1
     topan = self.picfit.get_size()[d] - (SWidth, SHeight)[d]
 
+    oneshift = topan / pansteps
+    lower = np.floor(oneshift)
+    upper = np.floor(oneshift)
+
     if self.shifted < topan:
-        oneshift = topan / pansteps
+
         self.where = [0, 0]
-        self.where[d] = round(self.where[d] - self.shifted)
+        self.where[d] = np.floor(self.where[d] - self.shifted)
         screen.blit(self.picfit, self.where)
         self.shifted += oneshift
 
