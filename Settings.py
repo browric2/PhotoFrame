@@ -1,7 +1,7 @@
 import pygame
 
-SWidth = 500
-SHeight = 500
+SWidth = 853
+SHeight = 853
 
 ##################### CONTROL PANEL: TWEAK THESE! ########################
 
@@ -12,14 +12,14 @@ colour_divisions = 50        # NUMBER OF DIFFERENT COLOUR DIVISIONS. HIGHER -> M
 ##################### CONTROL PANEL: TWEAK THESE! ########################
 
 size = (SWidth, SHeight)
-#screen = pygame.display.set_mode(size,pygame.FULLSCREEN)
-screen = pygame.display.set_mode(size)
+screen = pygame.display.set_mode(size,pygame.FULLSCREEN)
+#screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Ricky's Photo Viewer")
 
 currentgroup = 0
 
-pansteps = 300
-startframes = 20
-endframes = 20
-tframes = 30
-fps = 37
+pansteps = 200
+startframes = 40
+endframes = 40
+tframes = 37
+fps = 40

@@ -4,7 +4,7 @@ import Settings
 import Display_Playlist
 
 
-playlist = 'data/playlists/best2_rscale/'
+playlist = 'data/playlists/best2_tabscale/'
 home_colour = (10,10,10)
 player = Display_Playlist.Player(playlist, home_colour)
 

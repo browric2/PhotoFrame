@@ -91,15 +91,16 @@ class Player():
             upper = [0, 0]
             upper[d] = np.ceil(self.where[d] - self.shifted)
             self.where = [0, 0]
-            self.where[d] = np.floor(self.where[d] - self.shifted)
-            next_alpha = (self.shifted % 1)*255
+            self.where[d] = round(self.where[d] - self.shifted)
+            #self.where[d] = np.floor(self.where[d] - self.shifted)
+            #next_alpha = (self.shifted % 1)*255
 
 
-            self.nextpan_picfit = self.picfit.copy()
-            self.nextpan_picfit.set_alpha(next_alpha)
-            print(next_alpha,self.where,upper)
-            screen.blits([(self.picfit, self.where),(self.nextpan_picfit, upper)])
-            #screen.blit(self.nextpan_picfit, upper)
+            # self.nextpan_picfit = self.picfit.copy()
+            # self.nextpan_picfit.set_alpha(next_alpha)
+            # print(next_alpha,self.where,upper)
+            # screen.blits([(self.picfit, self.where),(self.nextpan_picfit, upper)])
+            screen.blit(self.picfit, self.where)
             self.shifted += oneshift
 
         elif topan == 0:
