@@ -59,6 +59,9 @@ def preprocess_folder(name,current_loc,dest_loc,SHeight,SWidth,
                 oldf = imagef.split('.')[0]
                 rscale_file = dest_loc + '/' + name+ '/' + oldf + '_rscale.png'
                 im = im.resize(imdims,Image.BICUBIC)
+                im = im.convert('RGB')
+
+                #print(im.mode)
 
                 im.save(rscale_file, 'png')
                 hashset.add(hash)

@@ -12,10 +12,10 @@ dest_folder = 'best2_highres'
 def get_img_url(driver, u):
     driver.get(u)
     html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
+    title = html[html.find("<title>"):html.find("</title>")]
 
     # the beautiful line:
-
-    return "https://"+html.split("display_url")[1].split(r'","display_resources')[0].split('https://')[1].replace('\\u0026', '&')
+    return "https://"+html.split("display_url")[1].split(r'","display_resources')[0].split('https://')[1].replace('\\u0026', '&'), title
 
 
 
@@ -26,6 +26,9 @@ driver = webdriver.PhantomJS(r'C:\Users\Richard\Documents\Extracted\phantomjs-2.
 urls = pkl.load(open(urlfile+'.pkl','rb'))
 
 i=0
+
+title_dict = {}
+
 for u in tqdm(urls):
     driver.get(u)
     time.sleep(1)
@@ -47,15 +50,16 @@ for u in tqdm(urls):
     #     img_link = imgList.get_attribute('src')
 
     try:
-        img_link = get_img_url(driver,u)
+        img_link, title = get_img_url(driver,u)
 
-        #print(img_link)
+        title_dict['pic'+str(i)] = title
 
         urllib.request.urlretrieve(img_link, '../data/playlists/'+dest_folder+'/pic'+str(i)+'.jpg')
         i += 1
     except:
         pass
 
+pkl.dump(title_dict,open('../data/playlists/'+dest_folder+'title_dict','wb'))
 
 #html = driver.execute_script("return document.getElementsByTagName('html')[0].innerHTML")
 
